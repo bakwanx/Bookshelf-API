@@ -74,7 +74,43 @@ const addNoteController = (request, h) => {
     return response;
 }
 
-const getAllNotesController = () => {
+const getAllNotesController = (request, h) => {
+    const { name, reading, finished } = request.query;
+
+    if(name != null){
+        const note = notes.filter((note) => note.name.includes(name) || note.publisher.includes(name));
+       
+        return responseApi(
+            "success",
+            "success get data",
+            {
+                books: note.map(({ name, publisher}) => ({ name, publisher}))
+            }
+        );
+    }
+    if(reading != null){
+        const value = reading === 1 ? true : false;
+        const note = notes.filter((note) => note.reading === value);
+        return responseApi(
+            "success",
+            "success get data",
+            {
+                books: note.map(({ name, publisher}) => ({ name, publisher}))
+            }
+        );
+    }
+    if(finished != null){
+        const value = reading === 1 ? true : false;
+        const note = notes.filter((note) => note.finished === value);
+       
+        return responseApi(
+            "success",
+            "success get data",
+            {
+                books: note.map(({ name, publisher}) => ({ name, publisher}))
+            }
+        );
+    }
     return responseApi(
         "success",
         "success get data",
